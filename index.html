@@ -32,17 +32,34 @@
     margin: 1.5rem auto;
     padding: 0 1rem;
   }
-  .embed-box {
+  .games {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .game-card {
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    overflow: hidden;
+    padding: 1rem 1.25rem;
   }
-  .embed-box iframe {
-    width: 100%;
-    height: 650px;
-    border: 0;
-    display: block;
+  .game-card .date {
+    font-weight: 700;
+    color: #0b3d91;
+    font-size: 0.95rem;
+  }
+  .game-card .teams {
+    font-size: 1.1rem;
+    margin: 0.35rem 0 0.15rem;
+  }
+  .game-card .meta {
+    font-size: 0.85rem;
+    color: #666;
+  }
+  .status-line {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.75rem;
   }
   .fallback {
     margin-top: 1rem;
@@ -76,17 +93,13 @@
 </header>
 
 <main>
-  <div class="embed-box">
-    <iframe
-      src="https://ticker.ligaportal.at/mannschaft/507/usk-st-koloman/spielplan"
-      title="Spielplan USK St. Koloman (ligaportal.at)"
-      loading="lazy">
-    </iframe>
+  <div id="games" class="games">
+    <p class="game-card">Lade Spielplan…</p>
   </div>
+  <p class="status-line" id="status-line"></p>
 
-  <p class="fallback">
-    Wird der Spielplan oben nicht angezeigt (manche Seiten lassen sich aus
-    Sicherheitsgründen nicht einbetten), dann direkt hier nachsehen:<br>
+  <p class="fallback" id="fallback" hidden>
+    Die Spieldaten konnten nicht automatisch geladen werden. Direkt hier nachsehen:<br>
     👉 <a href="https://ticker.ligaportal.at/mannschaft/507/usk-st-koloman/spielplan" target="_blank" rel="noopener">
       Spielplan auf ligaportal.at
     </a><br>
@@ -95,6 +108,57 @@
     </a>
   </p>
 </main>
+
+<script>
+  const WEEKDAYS = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+
+  function formatDate(isoDate) {
+    if (!isoDate) return "Termin folgt";
+    const d = new Date(isoDate + "T00:00:00");
+    const weekday = WEEKDAYS[d.getDay()];
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    return `${weekday}, ${dd}.${mm}.${d.getFullYear()}`;
+  }
+
+  function renderGames(games) {
+    const container = document.getElementById("games");
+    if (!games.length) {
+      container.innerHTML = "";
+      document.getElementById("fallback").hidden = false;
+      return;
+    }
+    container.innerHTML = games.map(g => `
+      <div class="game-card">
+        <div class="date">${formatDate(g.date)}${g.time ? " · " + g.time + " Uhr" : ""}</div>
+        <div class="teams">${g.home} – ${g.away}</div>
+        <div class="meta">${[g.competition, g.venue].filter(Boolean).join(" · ")}</div>
+      </div>
+    `).join("");
+  }
+
+  fetch("data/spielplan.json", { cache: "no-store" })
+    .then(res => {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
+    .then(data => {
+      renderGames(data.games || []);
+      const statusLine = document.getElementById("status-line");
+      if (data.updatedAt) {
+        const updated = new Date(data.updatedAt);
+        statusLine.textContent = "Zuletzt aktualisiert: " + updated.toLocaleString("de-AT");
+      }
+      if (data.error) {
+        document.getElementById("fallback").hidden = false;
+      }
+    })
+    .catch(err => {
+      console.error("Konnte Spielplan-Daten nicht laden:", err);
+      document.getElementById("games").innerHTML = "";
+      document.getElementById("fallback").hidden = false;
+    });
+</script>
 
 <footer>
   Daten eingebunden von ligaportal.at &middot; USK Raika St. Koloman
