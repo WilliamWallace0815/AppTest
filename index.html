@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USK St. Koloman – Nächste Spiele</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #f4f6f8;
+    color: #1a1a1a;
+  }
+  header {
+    background: #0b3d91;
+    color: #fff;
+    padding: 1.25rem 1rem;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+  header p {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+  main {
+    max-width: 900px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+  }
+  .embed-box {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  .embed-box iframe {
+    width: 100%;
+    height: 650px;
+    border: 0;
+    display: block;
+  }
+  .fallback {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .fallback a {
+    color: #0b3d91;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .fallback a:hover {
+    text-decoration: underline;
+  }
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+    padding: 1.5rem 1rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>USK St. Koloman</h1>
+  <p>Spielplan – die nächsten Spiele</p>
+</header>
+
+<main>
+  <div class="embed-box">
+    <iframe
+      src="https://ticker.ligaportal.at/mannschaft/507/usk-st-koloman/spielplan"
+      title="Spielplan USK St. Koloman (ligaportal.at)"
+      loading="lazy">
+    </iframe>
+  </div>
+
+  <p class="fallback">
+    Wird der Spielplan oben nicht angezeigt (manche Seiten lassen sich aus
+    Sicherheitsgründen nicht einbetten), dann direkt hier nachsehen:<br>
+    👉 <a href="https://ticker.ligaportal.at/mannschaft/507/usk-st-koloman/spielplan" target="_blank" rel="noopener">
+      Spielplan auf ligaportal.at
+    </a><br>
+    👉 <a href="https://vereine.oefb.at/UskRaikaStKoloman/Termine/" target="_blank" rel="noopener">
+      Termine auf der offiziellen Vereinsseite (oefb.at)
+    </a>
+  </p>
+</main>
+
+<footer>
+  Daten eingebunden von ligaportal.at &middot; USK Raika St. Koloman
+</footer>
+
+</body>
+</html>
