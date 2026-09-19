@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-09-18T16:05:40.738125Z",
+  "updatedAt": "2026-09-19T04:10:36.595933Z",
   "source": "https://ticker.ligaportal.at/mannschaft/507/usk-st-koloman/spielplan",
   "games": [],
-  "error": "Fetch failed: HTTPSConnectionPool(host='ticker.ligaportal.at', port=443): Max retries exceeded with url: /mannschaft/507/usk-st-koloman/spielplan (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+  "error": "No upcoming fixtures could be extracted from the source page."
 }
